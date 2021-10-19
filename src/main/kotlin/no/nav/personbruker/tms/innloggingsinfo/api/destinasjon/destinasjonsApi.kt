@@ -5,6 +5,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.personbruker.tms.innloggingsinfo.api.common.exception.respondWithError
+import no.nav.personbruker.tms.innloggingsinfo.api.config.authenticatedUser
 import org.slf4j.LoggerFactory
 
 fun Route.destinasjonsApi(destinasjonsService: DestinasjonsService) {
@@ -14,7 +15,7 @@ fun Route.destinasjonsApi(destinasjonsService: DestinasjonsService) {
     get("/destinasjonsurl") {
         try {
             val url =
-                    destinasjonsService.hentDestinasjonsUrl(
+                    destinasjonsService.hentDestinasjonsUrl(authenticatedUser,
                             call.request.queryParameters["type"],
                             call.request.queryParameters["undertype"],
                             call.request.queryParameters["varselid"])

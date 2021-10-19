@@ -6,16 +6,15 @@ import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import io.prometheus.client.hotspot.DefaultExports
 import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUserFactory
+import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
 import no.nav.security.token.support.ktor.tokenValidationSupport
-import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {

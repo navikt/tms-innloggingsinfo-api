@@ -1,6 +1,7 @@
 package no.nav.personbruker.tms.innloggingsinfo.api.destinasjon
 
 import no.nav.brukernotifikasjon.schemas.builders.util.ValidationUtil.validateNonNullFieldMaxLength
+import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
 import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.stream.Stream
@@ -9,7 +10,7 @@ class DestinasjonsService {
 
     private val log = LoggerFactory.getLogger(DestinasjonsService::class.java)
 
-    fun hentDestinasjonsUrl(type: String?, undertype: String?, varselid: String?): String {
+    fun hentDestinasjonsUrl(authenticatedUser: AuthenticatedUser, type: String?, undertype: String?, varselid: String?): String {
         val validType = validateNonNullFieldMaxLength(type, "type", 100)
         val validUndertype = validateNonNullFieldMaxLength(undertype, "undertype", 100)
         val validVarselid = validateNonNullFieldMaxLength(varselid, "varselid", 100)
