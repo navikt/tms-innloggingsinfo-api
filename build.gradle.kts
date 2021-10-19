@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    implementation(Brukernotifikasjon.schemas)
     implementation(Jackson.dataTypeJsr310)
     implementation(Kotlinx.coroutines)
     implementation(Kotlinx.htmlJvm)

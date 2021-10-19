@@ -15,26 +15,22 @@ import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUserFactory
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
 import no.nav.security.token.support.ktor.tokenValidationSupport
+import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
-    val environment = Environment()
 
     DefaultExports.initialize()
 
     install(DefaultHeaders)
 
     install(CORS) {
-        host(environment.corsAllowedOrigins)
+        host(appContext.environment.corsAllowedOrigins)
         allowCredentials = true
         header(HttpHeaders.ContentType)
     }
 
     val config = this.environment.config
-
-    install(Authentication) {
-        tokenValidationSupport(config = config)
-    }
 
     install(ContentNegotiation) {
         jackson {
@@ -42,17 +38,15 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         }
     }
 
+    install(Authentication) {
+        tokenValidationSupport(config = config)
+    }
+
     routing {
         healthApi(appContext.healthService)
 
-        get("/usikret") {
-            call.respondText(text = "Usikret API.", contentType = ContentType.Text.Plain)
-        }
-
         authenticate {
-            get("/sikret") {
-                call.respondText(text = "Du er authentisert som $authenticatedUser.", contentType = ContentType.Text.Plain)
-            }
+            destinasjonsApi(appContext.destinasjonsService)
         }
     }
 
