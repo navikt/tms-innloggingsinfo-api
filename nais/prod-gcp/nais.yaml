@@ -30,13 +30,7 @@ spec:
   resources:
     limits:
       cpu: "3"
-      memory: 1024Mi
+      memory: 768Mi
     requests:
-      cpu: "500m"
-      memory: 512Mi
-  accessPolicy:
-    outbound:
-      rules:
-        - application: "app-x"
-          namespace: "min-side"
-          cluster: "prod-gcp"
+      cpu: "1"
+      memory: 384Mi
