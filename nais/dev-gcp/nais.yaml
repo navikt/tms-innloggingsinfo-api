@@ -1,13 +1,13 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: tms-innlggingsinfo-api
+  name: tms-innloggingsinfo-api
   namespace: min-side
   labels:
     team: min-side
 spec:
   envFrom:
-    - secret: tms-innlggingsinfo-api-secrets
+    - secret: tms-innloggingsinfo-api-secrets
     - secret: influxdb-credentials
   image: {{version}}
   port: 8080
@@ -25,7 +25,7 @@ spec:
     max: 1
     cpuThresholdPercentage: 50
   ingresses:
-    - "https://tms-innlggingsinfo-api-gcp.dev.nav.no"
+    - "https://tms-innloggingsinfo-api-gcp.dev.nav.no"
   webproxy: true
   resources:
     limits:

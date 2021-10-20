@@ -21,7 +21,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
     })
     {
         head {
-            title { +"Selftest tms-innlggingsinfo-api" }
+            title { +"Selftest tms-innloggingsinfo-api" }
         }
         body {
             var text = if(hasFailedChecks) {
@@ -39,7 +39,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
             }
             table {
                 thead {
-                    tr { th { +"SELFTEST tms-innlggingsinfo-api" } }
+                    tr { th { +"SELFTEST tms-innloggingsinfo-api" } }
                 }
                 tbody {
                     healthChecks.map {

@@ -1,1 +1,1 @@
-rootProject.name = "tms-innlggingsinfo-api"
+rootProject.name = "tms-innloggingsinfo-api"

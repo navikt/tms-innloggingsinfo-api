@@ -1,4 +1,4 @@
-package no.nav.personbruker.tms.innlggingsinfo.api.logging
+package no.nav.personbruker.tms.innloggingsinfo.api.logging
 
 import ch.qos.logback.classic.spi.ThrowableProxy
 import ch.qos.logback.classic.spi.ThrowableProxyUtil

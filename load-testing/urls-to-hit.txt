@@ -1,2 +1,2 @@
-https://personbruker.nais.oera-q.local/person/tms-innlggingsinfo-api/sikret
-https://personbruker.nais.oera-q.local/person/tms-innlggingsinfo-api/usikret
+https://personbruker.nais.oera-q.local/person/tms-innloggingsinfo-api/sikret
+https://personbruker.nais.oera-q.local/person/tms-innloggingsinfo-api/usikret

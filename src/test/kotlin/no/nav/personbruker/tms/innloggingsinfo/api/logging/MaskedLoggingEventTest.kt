@@ -1,4 +1,4 @@
-package no.nav.personbruker.tms.innlggingsinfo.api.logging
+package no.nav.personbruker.tms.innloggingsinfo.api.logging
 
 import no.nav.personbruker.tms.innloggingsinfo.api.logging.MaskedLoggingEvent
 import org.amshove.kluent.`should contain`
