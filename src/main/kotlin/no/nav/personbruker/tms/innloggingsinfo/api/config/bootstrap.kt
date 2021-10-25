@@ -10,6 +10,7 @@ import io.ktor.routing.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import io.prometheus.client.hotspot.DefaultExports
+import no.nav.personbruker.tms.innloggingsinfo.api.authlevel.authlevelApi
 import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUserFactory
 import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
@@ -45,6 +46,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         healthApi(appContext.healthService)
 
         authenticate {
+            authlevelApi()
             destinasjonsApi(appContext.destinasjonsService)
         }
     }
