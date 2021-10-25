@@ -14,6 +14,11 @@ suspend fun respondWithError(call: ApplicationCall, log: Logger, exception: Exce
             val msg = "Vi fikk en valideringsfeil. Returnerer feilkode. {}"
             log.error(msg, exception.toString(), exception)
         }
+        is UrlValidationException -> {
+            call.respond(HttpStatusCode.BadRequest)
+            val msg = "Vi fikk en feil når vi prøvde å bygge url-en. Returnerer feilkode. {}"
+            log.error(msg, exception.toString(), exception)
+        }
         else -> {
             call.respond(HttpStatusCode.InternalServerError)
             log.error("Ukjent feil oppstod. Returnerer feilkode til frontend", exception)

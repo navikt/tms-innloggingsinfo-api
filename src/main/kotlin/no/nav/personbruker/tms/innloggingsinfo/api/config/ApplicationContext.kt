@@ -10,6 +10,6 @@ class ApplicationContext {
     val httpClient = HttpClientBuilder.build()
     val healthService = HealthService(this)
 
-    val destinasjonsService = DestinasjonsService()
+    val destinasjonsService = DestinasjonsService(environment)
 
 }

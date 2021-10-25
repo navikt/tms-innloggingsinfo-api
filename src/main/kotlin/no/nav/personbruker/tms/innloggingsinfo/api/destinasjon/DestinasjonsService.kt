@@ -1,57 +1,42 @@
 package no.nav.personbruker.tms.innloggingsinfo.api.destinasjon
 
-import no.nav.brukernotifikasjon.schemas.builders.util.ValidationUtil.validateNonNullFieldMaxLength
-import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
-import org.slf4j.LoggerFactory
-import java.util.*
-import java.util.stream.Stream
+import no.nav.brukernotifikasjon.schemas.builders.util.ValidationUtil.validateMaxLength
+import no.nav.personbruker.tms.innloggingsinfo.api.common.exception.UrlValidationException
+import no.nav.personbruker.tms.innloggingsinfo.api.config.Environment
 
-class DestinasjonsService {
+class DestinasjonsService(private val environment: Environment) {
 
-    private val log = LoggerFactory.getLogger(DestinasjonsService::class.java)
+    private val minInnboksPath = "/mininnboks"
+    private val varselidPath = "/?varselid="
+    private val allValidTypes = listOf("oppgave", "dokument", "url")
+    private val typesToUseWithVarselidPath = listOf("oppgave", "dokument")
 
-    fun hentDestinasjonsUrl(authenticatedUser: AuthenticatedUser, type: String?, undertype: String?, varselid: String?): String {
-        val validType = validateNonNullFieldMaxLength(type, "type", 100)
-        val validUndertype = validateNonNullFieldMaxLength(undertype, "undertype", 100)
-        val validVarselid = validateNonNullFieldMaxLength(varselid, "varselid", 100)
+    fun getDestinationPath(type: String?, undertype: String?, varselid: String?): String {
+        val validType = type?.let { validateMaxLength(type, "type", 50) }
+        val validUndertype = undertype?.let { validateMaxLength(undertype, "undertype", 50) }
+        val validVarselid = varselid?.let { validateMaxLength(varselid, "varselid", 50) }
 
-        /*
-        //Opprett url fra input fra front-end. Fra innloggingsinfo-api:
-        val urlPatterns = getUrlPatterns()
-        val url = lagDestinasjonsurl(urlPatterns, validType, validUndertype, validVarselid)
-        return url
-         */
-        return ""
+        return createDestinationPath(validType, validUndertype, validVarselid)
     }
 
+    private fun createDestinationPath(type: String?, undertype: String?, varselid: String?): String {
+        var pathToDestination = "${environment.baseUrl}$minInnboksPath"
 
-    /*
-    //fra innloggingsinfo-api:
-
-    private fun getUrlPatterns(): Map<String, String> {
-        val patterns: MutableMap<String, String> = HashMap()
-        patterns["url"] = "/mininnboks"
-        patterns["oppgave.url"] = "/mininnboks/?varselid={varselid}"
-        patterns["dokument.url"] = "/mininnboks/?varselid={varselid}"
-        return patterns
-    }
-
-    fun lagDestinasjonsurl(urlPatterns: Map<String, String>, type: String, undertype: String, varselid: String): String {
-        var urlConfig = finnUrlConfig(type, undertype, urlPatterns)
-        urlConfig = if (varselid.isNotEmpty()) {
-            urlConfig!!.replace("{varselid}", varselid!!)
-        } else {
-            urlConfig!!.replace("/?varselid={varselid}", "")
+        if (!allValidTypes.contains(type)) {
+            val exception = UrlValidationException("Fant ingen url-config.", RuntimeException())
+            exception.addContext("type", type)
+            exception.addContext("undertype", undertype)
+            exception.addContext("varselid", varselid)
+            throw exception
         }
-        return urlConfig
-    }
 
-    private fun finnUrlConfig(type: String, undertype: String, urlPatterns: Map<String, String>): String? {
-        return Stream.of(String.format("%s.%s.url", type, undertype), String.format("%s.url", type), "url")
-                .filter { key: String -> urlPatterns.containsKey(key) }
-                .map { key: String -> urlPatterns[key] }
-                .findFirst().orElseThrow { RuntimeException("Fant ingen url-config") }
+        if (typesToUseWithVarselidPath.contains(type)) {
+            if (!varselid.isNullOrBlank()) {
+                pathToDestination = "$pathToDestination$varselidPath$varselid"
+            }
+        }
+
+        return pathToDestination
     }
-     */
 
 }
