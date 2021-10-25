@@ -7,7 +7,10 @@ import no.nav.brukernotifikasjon.schemas.builders.exception.FieldValidationExcep
 import no.nav.personbruker.tms.innloggingsinfo.api.common.`with message containing`
 import no.nav.personbruker.tms.innloggingsinfo.api.common.exception.UrlValidationException
 import no.nav.personbruker.tms.innloggingsinfo.api.config.Environment
-import org.amshove.kluent.*
+import org.amshove.kluent.`should contain`
+import org.amshove.kluent.`should not contain`
+import org.amshove.kluent.`should throw`
+import org.amshove.kluent.invoking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -41,15 +44,7 @@ internal class DestinasjonsServiceTest {
     }
 
     @Test
-    fun `should return base path when type is url`() {
-        val result = destinasjonsService.getDestinationPath(type = "url", undertype, varselid)
-
-        result `should contain` basePath
-        result `should not contain` varselid
-    }
-
-    @Test
-    fun `should return base path when varselid is null`() {
+    fun `should return base path when varselid is null and type is dokument`() {
         val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid = null)
 
         result `should contain` basePath
@@ -57,38 +52,52 @@ internal class DestinasjonsServiceTest {
     }
 
     @Test
-    fun `should return base path when varselid is empty`() {
-        val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid = "")
+    fun `should return base path when varselid is null and type is oppgave`() {
+        val result = destinasjonsService.getDestinationPath(type = "oppgave", undertype, varselid = null)
 
         result `should contain` basePath
         result `should not contain` varselid
     }
 
     @Test
-    fun `should throw exception if type is null`() {
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(type = null, undertype, varselid)
-            }
-        } `should throw` UrlValidationException::class `with message containing` "Fant ingen url-config"
+    fun `should return base path when varselid is empty and type is dokument`() {
+        val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid = "")
+
+        result `should contain` basePath
+        result `should not contain` varselid
+    }
+
+
+    @Test
+    fun `should return base path when varselid is empty and type is oppgave`() {
+        val result = destinasjonsService.getDestinationPath(type = "oppgave", undertype, varselid = "")
+
+        result `should contain` basePath
+        result `should not contain` varselid
     }
 
     @Test
-    fun `should throw exception if type is empty`() {
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(type = "", undertype, varselid)
-            }
-        } `should throw` UrlValidationException::class `with message containing` "Fant ingen url-config"
+    fun `should return base path when type is null`() {
+        val result = destinasjonsService.getDestinationPath(type = null, undertype, varselid)
+
+        result `should contain` basePath
+        result `should not contain` varselid
     }
 
     @Test
-    fun `should throw exception if type is not recognized`() {
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(type = "notValidType", undertype, varselid)
-            }
-        } `should throw` UrlValidationException::class `with message containing` "Fant ingen url-config"
+    fun `should return base path when type is empty`() {
+        val result = destinasjonsService.getDestinationPath(type = "", undertype, varselid)
+
+        result `should contain` basePath
+        result `should not contain` varselid
+    }
+
+    @Test
+    fun `should return base path when type is not recognized`() {
+        val result = destinasjonsService.getDestinationPath(type = "notValidType", undertype, varselid)
+
+        result `should contain` basePath
+        result `should not contain` varselid
     }
 
     @Test
@@ -97,16 +106,6 @@ internal class DestinasjonsServiceTest {
         invoking {
             runBlocking {
                 destinasjonsService.getDestinationPath(tooLongType, undertype, varselid)
-            }
-        } `should throw` FieldValidationException::class
-    }
-
-    @Test
-    fun `should throw exception if undertype is too long`() {
-        val tooLongUndertype = "U".repeat(51)
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(type = "oppgave", tooLongUndertype, varselid)
             }
         } `should throw` FieldValidationException::class
     }
