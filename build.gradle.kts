@@ -27,6 +27,7 @@ repositories {
 dependencies {
     implementation(Brukernotifikasjon.schemas)
     implementation(DittNAV.Common.securityAuthenticatedUser)
+    implementation(DittNAV.Common.utils)
     implementation(Jackson.dataTypeJsr310)
     implementation(Kotlinx.coroutines)
     implementation(Kotlinx.htmlJvm)
