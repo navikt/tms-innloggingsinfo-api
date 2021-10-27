@@ -7,7 +7,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
+import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import java.net.URL
 
 suspend inline fun <reified T> HttpClient.get(url: URL, user: AuthenticatedUser): T = withContext(Dispatchers.IO) {

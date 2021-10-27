@@ -6,16 +6,20 @@ import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import io.prometheus.client.hotspot.DefaultExports
+import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.authlevel.authlevelApi
-import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
-import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUserFactory
 import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
 import no.nav.security.token.support.ktor.tokenValidationSupport
+import org.slf4j.LoggerFactory
+import java.time.Instant
+
+val log = LoggerFactory.getLogger(ApplicationContext::class.java)
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
@@ -61,4 +65,17 @@ private fun Application.configureShutdownHook(httpClient: HttpClient) {
 }
 
 val PipelineContext<Unit, ApplicationCall>.authenticatedUser: AuthenticatedUser
-    get() = AuthenticatedUserFactory.createNewAuthenticatedUser(call)
+    get() = no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory.createNewAuthenticatedUser(call)
+
+suspend fun PipelineContext<Unit, ApplicationCall>.executeOnUnexpiredTokensOnly(block: suspend () -> Unit) {
+    if (authenticatedUser.isTokenExpired()) {
+        val delta = authenticatedUser.tokenExpirationTime.epochSecond - Instant.now().epochSecond
+        val msg = "Mottok kall fra en bruker med et utløpt token, avviser request-en med en 401-respons. " +
+                "Tid siden tokenet løp ut: $delta sekunder, $authenticatedUser"
+        log.info(msg)
+        call.respond(HttpStatusCode.Unauthorized)
+
+    } else {
+        block.invoke()
+    }
+}

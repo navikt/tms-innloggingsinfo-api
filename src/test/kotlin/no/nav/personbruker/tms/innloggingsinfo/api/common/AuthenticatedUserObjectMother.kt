@@ -3,7 +3,6 @@ package no.nav.personbruker.tms.innloggingsinfo.api.common
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import no.nav.personbruker.tms.innloggingsinfo.api.common.AuthenticatedUser
 import no.nav.security.token.support.core.jwt.JwtToken
 import java.security.Key
 import java.time.ZoneId
@@ -11,7 +10,7 @@ import java.time.ZonedDateTime
 import java.util.*
 
 object AuthenticatedUserObjectMother {
-
+/*
     private val key: Key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
 
     fun createAuthenticatedUser(): AuthenticatedUser {
@@ -53,4 +52,6 @@ object AuthenticatedUserObjectMother {
 
         return createAuthenticatedUserWithValidTokenUntil(ident, loginLevel, inTwoMinutes, auxiliaryToken)
     }
+ */
 }
+

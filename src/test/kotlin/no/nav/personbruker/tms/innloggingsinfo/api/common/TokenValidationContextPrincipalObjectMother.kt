@@ -11,7 +11,7 @@ import java.time.Instant
 import java.util.*
 
 object TokenValidationContextPrincipalObjectMother {
-
+/*
     fun createPrincipalForAzure(ident: String, innloggingsnivaa: Int): TokenValidationContextPrincipal {
         val key: Key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
         val inTwoMinutes = Date(Instant.now().plusSeconds(60).toEpochMilli())
@@ -53,5 +53,7 @@ object TokenValidationContextPrincipalObjectMother {
         val context = TokenValidationContext(issuerShortNameValidatedTokenMap)
         return TokenValidationContextPrincipal(context)
     }
+
+ */
 
 }
