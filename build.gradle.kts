@@ -90,7 +90,8 @@ tasks {
         environment("SENSU_HOST", "stub")
         environment("SENSU_PORT", "")
 
-        environment("BASE_URL", "basePath")
+        environment("MININNBOKS_PATH", "mininnboks_path")
+        environment("VARSELID_PATH", "varselid_path")
 
         main = application.mainClassName
         classpath = sourceSets["main"].runtimeClasspath
