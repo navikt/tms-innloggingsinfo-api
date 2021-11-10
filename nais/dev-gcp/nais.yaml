@@ -22,7 +22,7 @@ spec:
     max: 4
     cpuThresholdPercentage: 50
   ingresses:
-    - "https://tms-innloggingsinfo-api-gcp.dev.nav.no"
+    - "https://tms-innloggingsinfo-api.dev.nav.no"
   webproxy: true
   resources:
     limits:
