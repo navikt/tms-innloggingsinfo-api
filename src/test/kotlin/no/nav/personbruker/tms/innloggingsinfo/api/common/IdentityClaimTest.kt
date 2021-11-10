@@ -1,4 +1,4 @@
-package no.nav.personbruker.tms.innlggingsinfo.api.common
+package no.nav.personbruker.tms.innloggingsinfo.api.common
 
 import no.nav.personbruker.tms.innloggingsinfo.api.common.IdentityClaim
 import org.amshove.kluent.`should be equal to`

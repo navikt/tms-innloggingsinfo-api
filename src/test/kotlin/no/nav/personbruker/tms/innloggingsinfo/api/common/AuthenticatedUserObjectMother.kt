@@ -1,4 +1,4 @@
-package no.nav.personbruker.tms.innlggingsinfo.api.common
+package no.nav.personbruker.tms.innloggingsinfo.api.common
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
