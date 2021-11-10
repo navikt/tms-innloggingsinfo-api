@@ -8,8 +8,8 @@ Denne applikasjonen tilbyr et rest-endepunkt hvor man kan hente informasjonen so
 1. Bygg tms-innloggingsinfo-api ved å kjøre `gradle build`
 1. Start appens avhengigheter ved å kjøre `docker-compose up -d`
 1. Start appen lokalt ved å kjøre `gradle runServer`
-1. Appen nås på `http://localhost:8101/person/tms-innloggingsinfo-api`
-   * F.eks. via `curl http://localhost:8101/person/tms-innloggingsinfo-api/internal/isAlive`
+1. Appen nås på `http://localhost:8101`
+   * F.eks. via `curl http://localhost:8101/internal/isAlive`
 
 # Henvendelser
 
