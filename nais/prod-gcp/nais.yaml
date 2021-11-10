@@ -8,18 +8,14 @@ metadata:
 spec:
   envFrom:
     - secret: tms-innlggingsinfo-api-secrets
-    - secret: influxdb-credentials
   image: {{version}}
   port: 8080
   liveness:
     path: /internal/isAlive
-    initialDelay: 15
+    initialDelay: 10
   readiness:
     path: /internal/isReady
-    initialDelay: 15
-  prometheus:
-    enabled: true
-    path: /metrics
+    initialDelay: 10
   replicas:
     min: 2
     max: 4
@@ -34,9 +30,3 @@ spec:
     requests:
       cpu: "500m"
       memory: 512Mi
-  accessPolicy:
-    outbound:
-      rules:
-        - application: "app-x"
-          namespace: "min-side"
-          cluster: "prod-gcp"
