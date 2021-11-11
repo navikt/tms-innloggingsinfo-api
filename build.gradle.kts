@@ -25,6 +25,9 @@ repositories {
 }
 
 dependencies {
+    implementation(Brukernotifikasjon.schemas)
+    implementation(DittNAV.Common.securityAuthenticatedUser)
+    implementation(DittNAV.Common.utils)
     implementation(Jackson.dataTypeJsr310)
     implementation(Kotlinx.coroutines)
     implementation(Kotlinx.htmlJvm)
@@ -86,6 +89,9 @@ tasks {
         environment("NAIS_NAMESPACE", "personbruker")
         environment("SENSU_HOST", "stub")
         environment("SENSU_PORT", "")
+
+        environment("MININNBOKS_PATH", "mininnboks_path")
+        environment("VARSELID_PATH", "varselid_path")
 
         main = application.mainClassName
         classpath = sourceSets["main"].runtimeClasspath
