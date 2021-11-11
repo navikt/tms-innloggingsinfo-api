@@ -15,10 +15,9 @@ import org.junit.jupiter.api.Test
 internal class DestinasjonsServiceTest {
 
     private val environment = mockk<Environment>()
-    private val destinasjonsService = DestinasjonsService(environment)
+    private val destinasjonsService = DestinasjonService(environment)
     private val minInnboksPath = "dummyPath_mininnboks"
     private val varselidPath = "dummyPath_varsel"
-    private val undertype = "dummyUndertype"
     private val varselid = "dummyVarselid"
 
     @BeforeEach
@@ -29,7 +28,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return path with varselid when type is oppgave`() {
-        val result = destinasjonsService.getDestinationPath(type = "oppgave", undertype, varselid)
+        val result = destinasjonsService.getDestinationPath(type = "oppgave", varselid)
 
         result `should contain` minInnboksPath
         result `should contain` varselidPath
@@ -38,7 +37,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return path with varselid when type is dokument`() {
-        val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid)
+        val result = destinasjonsService.getDestinationPath(type = "dokument", varselid)
 
         result `should contain` minInnboksPath
         result `should contain` varselidPath
@@ -47,7 +46,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when varselid is null and type is dokument`() {
-        val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid = null)
+        val result = destinasjonsService.getDestinationPath(type = "dokument", varselid = null)
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -56,7 +55,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when varselid is null and type is oppgave`() {
-        val result = destinasjonsService.getDestinationPath(type = "oppgave", undertype, varselid = null)
+        val result = destinasjonsService.getDestinationPath(type = "oppgave", varselid = null)
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -65,7 +64,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when varselid is empty and type is dokument`() {
-        val result = destinasjonsService.getDestinationPath(type = "dokument", undertype, varselid = "")
+        val result = destinasjonsService.getDestinationPath(type = "dokument", varselid = "")
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -75,7 +74,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when varselid is empty and type is oppgave`() {
-        val result = destinasjonsService.getDestinationPath(type = "oppgave", undertype, varselid = "")
+        val result = destinasjonsService.getDestinationPath(type = "oppgave", varselid = "")
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -84,7 +83,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when type is null`() {
-        val result = destinasjonsService.getDestinationPath(type = null, undertype, varselid)
+        val result = destinasjonsService.getDestinationPath(type = null, varselid)
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -93,7 +92,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when type is empty`() {
-        val result = destinasjonsService.getDestinationPath(type = "", undertype, varselid)
+        val result = destinasjonsService.getDestinationPath(type = "", varselid)
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -102,7 +101,7 @@ internal class DestinasjonsServiceTest {
 
     @Test
     fun `should return base path when type is not recognized`() {
-        val result = destinasjonsService.getDestinationPath(type = "notValidType", undertype, varselid)
+        val result = destinasjonsService.getDestinationPath(type = "notValidType", varselid)
 
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
@@ -114,7 +113,7 @@ internal class DestinasjonsServiceTest {
         val tooLongType = "T".repeat(51)
         invoking {
             runBlocking {
-                destinasjonsService.getDestinationPath(tooLongType, undertype, varselid)
+                destinasjonsService.getDestinationPath(tooLongType, varselid)
             }
         } `should throw` FieldValidationException::class
     }
@@ -124,7 +123,7 @@ internal class DestinasjonsServiceTest {
         val tooLongVarselid = "V".repeat(51)
         invoking {
             runBlocking {
-                destinasjonsService.getDestinationPath(type = "oppgave", undertype, tooLongVarselid)
+                destinasjonsService.getDestinationPath(type = "oppgave", tooLongVarselid)
             }
         } `should throw` FieldValidationException::class
     }

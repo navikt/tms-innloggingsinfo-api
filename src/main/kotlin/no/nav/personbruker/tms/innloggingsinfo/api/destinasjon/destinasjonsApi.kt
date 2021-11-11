@@ -2,24 +2,25 @@ package no.nav.personbruker.tms.innloggingsinfo.api.destinasjon
 
 import io.ktor.application.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.personbruker.tms.innloggingsinfo.api.common.exception.respondWithError
 import no.nav.personbruker.tms.innloggingsinfo.api.config.executeOnUnexpiredTokensOnly
 import org.slf4j.LoggerFactory
 
-fun Route.destinasjonsApi(destinasjonsService: DestinasjonsService) {
+fun Route.destinasjonApi(destinasjonsService: DestinasjonService) {
 
-    val log = LoggerFactory.getLogger(DestinasjonsService::class.java)
+    val log = LoggerFactory.getLogger(DestinasjonService::class.java)
 
     get("/destinasjonsurl") {
         executeOnUnexpiredTokensOnly {
             try {
-                val url =
-                        destinasjonsService.getDestinationPath(
-                                call.request.queryParameters["type"],
-                                call.request.queryParameters["undertype"],
-                                call.request.queryParameters["varselid"])
+                val url = destinasjonsService.getDestinationPath(
+                    call.request.typeParam,
+                    call.request.varselIdParam
+                )
+
                 call.respond(HttpStatusCode.OK, url)
 
             } catch (exception: Exception) {
@@ -28,3 +29,6 @@ fun Route.destinasjonsApi(destinasjonsService: DestinasjonsService) {
         }
     }
 }
+
+val ApplicationRequest.typeParam get() = queryParameters["type"]
+val ApplicationRequest.varselIdParam get() = queryParameters["varselid"]

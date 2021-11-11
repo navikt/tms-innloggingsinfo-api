@@ -13,7 +13,7 @@ import io.ktor.util.pipeline.*
 import io.prometheus.client.hotspot.DefaultExports
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.authlevel.authlevelApi
-import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonsApi
+import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonApi
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
 import no.nav.security.token.support.ktor.tokenValidationSupport
 import org.slf4j.LoggerFactory
@@ -51,7 +51,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
 
         authenticate {
             authlevelApi()
-            destinasjonsApi(appContext.destinasjonsService)
+            destinasjonApi(appContext.destinasjonService)
         }
     }
 

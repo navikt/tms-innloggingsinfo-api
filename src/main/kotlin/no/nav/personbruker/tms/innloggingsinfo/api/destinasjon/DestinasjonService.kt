@@ -3,9 +3,9 @@ package no.nav.personbruker.tms.innloggingsinfo.api.destinasjon
 import no.nav.brukernotifikasjon.schemas.builders.util.ValidationUtil.validateMaxLength
 import no.nav.personbruker.tms.innloggingsinfo.api.config.Environment
 
-class DestinasjonsService(private val environment: Environment) {
+class DestinasjonService(private val environment: Environment) {
 
-    fun getDestinationPath(type: String?, undertype: String?, varselid: String?): String {
+    fun getDestinationPath(type: String?, varselid: String?): String {
         val validType = type?.let { validateMaxLength(type, "type", 50) }
         val validVarselid = varselid?.let { validateMaxLength(varselid, "varselid", 50) }
 
