@@ -12,17 +12,17 @@ spec:
   image: {{version}}
   port: 8080
   liveness:
-    path: /internal/isAlive
+    path: /tms-innloggingsinfo-api/internal/isAlive
     initialDelay: 10
   readiness:
-    path: /internal/isReady
+    path: /tms-innloggingsinfo-api/internal/isReady
     initialDelay: 10
   replicas:
     min: 2
     max: 4
     cpuThresholdPercentage: 50
   ingresses:
-    - "https://tms-innloggingsinfo-api.nav.no"
+    - "https://person.nav.no/tms-innloggingsinfo-api"
   webproxy: true
   resources:
     limits:
