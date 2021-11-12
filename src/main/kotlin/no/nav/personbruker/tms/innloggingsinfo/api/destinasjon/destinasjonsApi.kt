@@ -6,7 +6,6 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.personbruker.tms.innloggingsinfo.api.common.exception.respondWithError
-import no.nav.personbruker.tms.innloggingsinfo.api.config.executeOnUnexpiredTokensOnly
 import org.slf4j.LoggerFactory
 
 fun Route.destinasjonApi(destinasjonsService: DestinasjonService) {
@@ -14,18 +13,16 @@ fun Route.destinasjonApi(destinasjonsService: DestinasjonService) {
     val log = LoggerFactory.getLogger(DestinasjonService::class.java)
 
     get("/destinasjonsurl") {
-        executeOnUnexpiredTokensOnly {
-            try {
-                val url = destinasjonsService.getDestinationPath(
-                    call.request.typeParam,
-                    call.request.varselIdParam
-                )
+        try {
+            val url = destinasjonsService.getDestinationPath(
+                call.request.typeParam,
+                call.request.varselIdParam
+            )
 
-                call.respond(HttpStatusCode.OK, url)
+            call.respond(HttpStatusCode.OK, url)
 
-            } catch (exception: Exception) {
-                respondWithError(call, log, exception)
-            }
+        } catch (exception: Exception) {
+            respondWithError(call, log, exception)
         }
     }
 }

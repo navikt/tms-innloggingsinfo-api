@@ -6,6 +6,7 @@ data class Environment(
     val corsAllowedOrigins: String = getEnvVar("CORS_ALLOWED_ORIGINS"),
     val corsAllowedSchemes: String = getEnvVar("CORS_ALLOWED_SCHEMES", "https"),
     val minInnboksPath: String = getEnvVar("MININNBOKS_PATH"),
-    val minInnboksVarselidPath: String = getEnvVar("VARSELID_PATH")
+    val minInnboksVarselidPath: String = getEnvVar("VARSELID_PATH"),
+    val postLogoutUrl: String = getEnvVar("POST_LOGOUT_URL")
 )
 
