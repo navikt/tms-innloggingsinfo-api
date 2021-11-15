@@ -26,7 +26,6 @@ repositories {
 
 dependencies {
     implementation(Brukernotifikasjon.schemas)
-    implementation(DittNAV.Common.securityAuthenticatedUser)
     implementation(DittNAV.Common.utils)
     implementation(Jackson.dataTypeJsr310)
     implementation(Kotlinx.coroutines)
@@ -44,12 +43,7 @@ dependencies {
     implementation(Ktor.serverNetty)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
-    implementation(NAV.tokenValidatorKtor)
-    implementation(Prometheus.common)
-    implementation(Prometheus.hotspot)
-    implementation(Prometheus.logback)
-
-
+    implementation(Tms.KtorTokenSupport.idporten)
     testImplementation(Junit.api)
     testImplementation(Ktor.clientMock)
     testImplementation(Ktor.clientMockJvm)
@@ -81,14 +75,8 @@ tasks {
 
         environment("CORS_ALLOWED_ORIGINS", "localhost:9002")
 
-        environment("LOGINSERVICE_IDPORTEN_DISCOVERY_URL", "http://localhost:9000/.well-known/openid-configuration")
-        environment("LOGINSERVICE_IDPORTEN_AUDIENCE", "stubOidcClient")
-        environment("OIDC_CLAIM_CONTAINING_THE_IDENTITY", "pid")
-        
         environment("NAIS_CLUSTER_NAME", "dev-sbs")
         environment("NAIS_NAMESPACE", "personbruker")
-        environment("SENSU_HOST", "stub")
-        environment("SENSU_PORT", "")
 
         environment("MININNBOKS_PATH", "mininnboks_path")
         environment("VARSELID_PATH", "varselid_path")

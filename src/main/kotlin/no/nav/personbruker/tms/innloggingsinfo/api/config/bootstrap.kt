@@ -6,25 +6,22 @@ import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
-import io.prometheus.client.hotspot.DefaultExports
-import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.tms.innloggingsinfo.api.authlevel.authlevelApi
 import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonApi
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
-import no.nav.security.token.support.ktor.tokenValidationSupport
+import no.nav.tms.token.support.idporten.SecurityLevel
+import no.nav.tms.token.support.idporten.installIdPortenAuth
+import no.nav.tms.token.support.idporten.user.IdportenUser
+import no.nav.tms.token.support.idporten.user.IdportenUserFactory
 import org.slf4j.LoggerFactory
-import java.time.Instant
 
 val log = LoggerFactory.getLogger(ApplicationContext::class.java)
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
-
-    DefaultExports.initialize()
 
     install(DefaultHeaders)
 
@@ -34,16 +31,17 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         header(HttpHeaders.ContentType)
     }
 
-    val config = this.environment.config
-
     install(ContentNegotiation) {
         jackson {
             enableDittNavJsonConfig()
         }
     }
 
-    install(Authentication) {
-        tokenValidationSupport(config = config)
+    installIdPortenAuth {
+        setAsDefault = true
+        postLogoutRedirectUri = appContext.environment.postLogoutUrl
+        tokenCookieName = "tms-innloggingsinfo-api"
+        securityLevel = SecurityLevel.LEVEL_3
     }
 
     routing {
@@ -64,18 +62,5 @@ private fun Application.configureShutdownHook(httpClient: HttpClient) {
     }
 }
 
-val PipelineContext<Unit, ApplicationCall>.authenticatedUser: AuthenticatedUser
-    get() = no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory.createNewAuthenticatedUser(call)
-
-suspend fun PipelineContext<Unit, ApplicationCall>.executeOnUnexpiredTokensOnly(block: suspend () -> Unit) {
-    if (authenticatedUser.isTokenExpired()) {
-        val delta = authenticatedUser.tokenExpirationTime.epochSecond - Instant.now().epochSecond
-        val msg = "Mottok kall fra en bruker med et utløpt token, avviser request-en med en 401-respons. " +
-                "Tid siden tokenet løp ut: $delta sekunder, $authenticatedUser"
-        log.info(msg)
-        call.respond(HttpStatusCode.Unauthorized)
-
-    } else {
-        block.invoke()
-    }
-}
+val PipelineContext<Unit, ApplicationCall>.authenticatedUser: IdportenUser
+    get() = IdportenUserFactory.createIdportenUser(call)
