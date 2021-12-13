@@ -6,7 +6,6 @@ import io.ktor.response.*
 import no.nav.brukernotifikasjon.schemas.builders.exception.FieldValidationException
 import org.slf4j.Logger
 
-
 suspend fun respondWithError(call: ApplicationCall, log: Logger, exception: Exception) {
     when(exception) {
         is FieldValidationException -> {
