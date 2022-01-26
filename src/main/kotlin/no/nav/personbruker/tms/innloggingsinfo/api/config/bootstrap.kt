@@ -12,13 +12,10 @@ import io.ktor.util.pipeline.*
 import no.nav.personbruker.tms.innloggingsinfo.api.authlevel.authlevelApi
 import no.nav.personbruker.tms.innloggingsinfo.api.destinasjon.destinasjonApi
 import no.nav.personbruker.tms.innloggingsinfo.api.health.healthApi
-import no.nav.tms.token.support.idporten.SecurityLevel
-import no.nav.tms.token.support.idporten.installIdPortenAuth
-import no.nav.tms.token.support.idporten.user.IdportenUser
-import no.nav.tms.token.support.idporten.user.IdportenUserFactory
-import org.slf4j.LoggerFactory
-
-val log = LoggerFactory.getLogger(ApplicationContext::class.java)
+import no.nav.tms.token.support.idporten.sidecar.LoginLevel
+import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
+import no.nav.tms.token.support.idporten.sidecar.user.IdportenUser
+import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
@@ -39,9 +36,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
 
     installIdPortenAuth {
         setAsDefault = true
-        postLogoutRedirectUri = appContext.environment.postLogoutUrl
-        tokenCookieName = "tms-innloggingsinfo-api"
-        securityLevel = SecurityLevel.LEVEL_3
+        loginLevel = LoginLevel.LEVEL_3
     }
 
     routing {

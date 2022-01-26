@@ -24,6 +24,9 @@ spec:
     enabled: true
     postLogoutRedirectURIs:
       - "https://www.dev.nav.no"
+    sidecar:
+      enabled: true
+      level: Level3
   ingresses:
     - "https://tms-innloggingsinfo-api.dev.nav.no/tms-innloggingsinfo-api"
   webproxy: true

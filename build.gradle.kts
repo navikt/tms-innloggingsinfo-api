@@ -43,7 +43,7 @@ dependencies {
     implementation(Ktor.serverNetty)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
-    implementation(Tms.KtorTokenSupport.idporten)
+    implementation(Tms.KtorTokenSupport.idportenSidecar)
     testImplementation(Junit.api)
     testImplementation(Ktor.clientMock)
     testImplementation(Ktor.clientMockJvm)
