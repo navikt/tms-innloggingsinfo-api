@@ -2,13 +2,9 @@ package no.nav.personbruker.tms.innloggingsinfo.api.destinasjon
 
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
-import no.nav.brukernotifikasjon.schemas.builders.exception.FieldValidationException
 import no.nav.personbruker.tms.innloggingsinfo.api.config.Environment
 import org.amshove.kluent.`should contain`
 import org.amshove.kluent.`should not contain`
-import org.amshove.kluent.`should throw`
-import org.amshove.kluent.invoking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -106,25 +102,5 @@ internal class DestinasjonsServiceTest {
         result `should contain` minInnboksPath
         result `should not contain` varselidPath
         result `should not contain` varselid
-    }
-
-    @Test
-    fun `should throw exception if type is too long`() {
-        val tooLongType = "T".repeat(51)
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(tooLongType, varselid)
-            }
-        } `should throw` FieldValidationException::class
-    }
-
-    @Test
-    fun `should throw exception if varselid is too long`() {
-        val tooLongVarselid = "V".repeat(51)
-        invoking {
-            runBlocking {
-                destinasjonsService.getDestinationPath(type = "oppgave", tooLongVarselid)
-            }
-        } `should throw` FieldValidationException::class
     }
 }
