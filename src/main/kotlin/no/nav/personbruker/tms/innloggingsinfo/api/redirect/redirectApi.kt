@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 val log: Logger = LoggerFactory.getLogger("redirectApi")
 
 fun Route.redirectApi(infoPageUri: String) {
-    get("/innloggingsinfo/*") {
+    get("/innloggingsinfo/{...}") {
         call.logInfoAndSendRedirect(infoPageUri)
     }
 
