@@ -20,20 +20,13 @@ spec:
     min: 2
     max: 4
     cpuThresholdPercentage: 50
-  idporten:
-    enabled: true
-    postLogoutRedirectURIs:
-      - "https://www.nav.no"
-    sidecar:
-      enabled: true
-      level: Level3
   ingresses:
     - "https://person.nav.no/tms-innloggingsinfo-api"
-  webproxy: true
+    - "https://tjenester.nav.no/innloggingsinfo"
   resources:
     limits:
       cpu: "1"
       memory: 768Mi
     requests:
       cpu: "50m"
-      memory: 256Mi
+      memory: 32Mi

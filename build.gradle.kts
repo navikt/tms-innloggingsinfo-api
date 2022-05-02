@@ -30,28 +30,12 @@ dependencies {
     implementation(Ktor.auth)
     implementation(Ktor.authJwt)
     implementation(Ktor.clientApache)
-    implementation(Ktor.clientJackson)
-    implementation(Ktor.clientJson)
-    implementation(Ktor.clientLogging)
-    implementation(Ktor.clientLoggingJvm)
     implementation(Ktor.clientSerializationJvm)
     implementation(Ktor.htmlBuilder)
     implementation(Ktor.jackson)
     implementation(Ktor.serverNetty)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
-    implementation(Tms.KtorTokenSupport.idportenSidecar)
-    testImplementation(Junit.api)
-    testImplementation(Ktor.clientMock)
-    testImplementation(Ktor.clientMockJvm)
-    testImplementation(Kluent.kluent)
-    testImplementation(Mockk.mockk)
-    testImplementation(Jjwt.api)
-
-    testRuntimeOnly(Bouncycastle.bcprovJdk15on)
-    testRuntimeOnly(Jjwt.impl)
-    testRuntimeOnly(Jjwt.jackson)
-    testRuntimeOnly(Junit.engine)
 }
 
 application {
@@ -70,13 +54,8 @@ tasks {
     register("runServer", JavaExec::class) {
         println("Setting default environment variables for running with DittNAV docker-compose")
 
-        environment("CORS_ALLOWED_ORIGINS", "localhost:9002")
-
-        environment("NAIS_CLUSTER_NAME", "dev-sbs")
-        environment("NAIS_NAMESPACE", "personbruker")
-
-        environment("MININNBOKS_PATH", "mininnboks_path")
-        environment("VARSELID_PATH", "varselid_path")
+        environment("MININNBOKS_INFO_PAGE_URL", "https://www.nav.no/no/ditt-nav/meldingene-dine-er-flyttet")
+        environment("PORT", "8072")
 
         main = application.mainClassName
         classpath = sourceSets["main"].runtimeClasspath
