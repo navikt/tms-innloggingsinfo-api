@@ -19,17 +19,10 @@ fun Route.redirectApi(infoPageUri: String) {
 }
 
 private suspend fun ApplicationCall.logInfoAndSendRedirect(redirectUri: String) {
-    val type = typeParam
-    val undertype = undertypeParam
-    val varselid = varselidParam
-    val henvendelsesid = henvendelsesidParam
-
-    log.info("Sending redirect for path [${request.local.uri}], params {type: $type, undertype: $undertype, varselId: $varselid, henvendelsesId: $henvendelsesid}")
+    log.info("Sending redirect for path [${request.local.uri}], request {referer: ${referer}, origin: $origin}")
 
     respondRedirect(redirectUri)
 }
 
-val ApplicationCall.typeParam get() = request.queryParameters["type"]
-val ApplicationCall.undertypeParam get() = request.queryParameters["undertype"]
-val ApplicationCall.varselidParam get() = request.queryParameters["varselid"]
-val ApplicationCall.henvendelsesidParam get() = request.queryParameters["henvendelsesid"]
+val ApplicationCall.referer get() = request.headers["referer"]
+val ApplicationCall.origin get() = request.headers["origin"]
