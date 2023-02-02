@@ -17,14 +17,13 @@ tasks.withType<KotlinCompile> {
 
 repositories {
     mavenCentral()
-    maven("https://packages.confluent.io/maven")
     maven("https://jitpack.io")
     mavenLocal()
 }
 
 dependencies {
-    implementation(DittNAV.Common.utils)
-    implementation(Jackson.dataTypeJsr310)
+    implementation(DittNAVCommonLib.utils)
+    implementation(JacksonDatatype.datatypeJsr310)
     implementation(Kotlinx.coroutines)
     implementation(Kotlinx.htmlJvm)
     implementation(Ktor.auth)
@@ -49,16 +48,6 @@ tasks {
             exceptionFormat = TestExceptionFormat.FULL
             events("passed", "skipped", "failed")
         }
-    }
-
-    register("runServer", JavaExec::class) {
-        println("Setting default environment variables for running with DittNAV docker-compose")
-
-        environment("MININNBOKS_INFO_PAGE_URL", "https://www.nav.no/no/ditt-nav/meldingene-dine-er-flyttet")
-        environment("PORT", "8072")
-
-        main = application.mainClassName
-        classpath = sourceSets["main"].runtimeClasspath
     }
 }
 
